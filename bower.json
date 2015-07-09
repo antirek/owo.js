@@ -1,0 +1,19 @@
+{
+  "name": "owo.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/antirek/owo.js",
+  "authors": [
+    "antirek <serge.dmitriev@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "sip.js": "~0.7.0"
+  }
+}
