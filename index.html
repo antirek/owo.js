@@ -3,6 +3,11 @@
     
   </head>
   <body>
+
+    <a href="#" class="call">89135292926</a>
+    <br/>
+    <a href="#" class="call">89135292926</a>
+
     <script src="dist/owo.js"></script>
 
     <script>
@@ -15,6 +20,11 @@
       server: 'server.com'
     });
 
+    
+    owoPhone.bind('.call', function (target) {
+      owoPhone.call(target);
+    });
+    
     </script>
   </body>
 </html>
