@@ -1,6 +1,28 @@
 
 var owo = function () {
 
+  var owoControlsBind = function () {
+    var component = document.createElement("div");
+    component.setAttribute("id", "owoPhoneControls");
+    //component.setAttribute("style", "display: none;");
+
+    var callButton = document.createElement("div");
+    callButton.setAttribute("id", "owoPhoneControlsCallButton");
+
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'owoPhoneControlsInput');
+
+    var sipStatusIndicator = document.createElement('input');
+    sipStatusIndicator.setAttribute("way-data", "sipStatusIndicator");
+    //sipStatusIndicator.setAttribute("style");
+
+    component.appendChild(sipStatusIndicator);
+    component.appendChild(input);
+    component.appendChild(callButton);
+    document.body.appendChild(component);
+  }();
+
   var options = {
     media: {
       constraints: {
@@ -14,7 +36,7 @@ var owo = function () {
     }
   };
 
-  var userAgent;
+  var sipUserAgent;
 
   var prepareLayout = function () {
     var component = document.createElement("div");
@@ -45,7 +67,7 @@ var owo = function () {
       }
     };
 
-    userAgent = new SIP.UA(config);    
+    sipUserAgent = new SIP.UA(config);    
   };
 
   var phone = function (config) {
@@ -54,7 +76,7 @@ var owo = function () {
   };
 
   var call = function (target) {
-    userAgent.invite(target, options);
+    sipUserAgent.invite(target, options);
   };
 
   var bind = function (selectors, callback) {
