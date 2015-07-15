@@ -9,10 +9,40 @@ var owo = function () {
     document.head.appendChild(style);
 
     return style.sheet;
-  })();
+  })(); 
 
-  var owoUIConfig = function () {
+
+  var Config = {
+    propertiesMap: {
+      uri: '',
+      wsServers: '',
+      authorizationUser: '',
+      password: '',
+      register: '',
+      displayName: ''
+    },
+    getOptionFromForm: function () {
+      var q = {}, lo = {};
+      for (var element in ui.configUI.elements){
+        q[ui.configUI.elements[element].name] = ui.configUI.elements[element].value;
+      }
+      for (var property in this.propertiesMap){        
+        lo[property] = q[property];
+      }
+      return lo;
+    },
+    setOptionToForm: function (object) {
+      for (var element in ui.configUI.elements){
+        ui.configUI.elements[element].value = object[ui.configUI.elements[element].name] || '';
+      }
+    }
+  };
+
+  
+
+  var owoUIConfig = function (propertiesMap) {
     var prefix = "owoPhoneConfig";
+    var configsElements = [];
 
     var component = document.createElement("div");
     component.setAttribute("id", prefix + "Base");
@@ -26,30 +56,18 @@ var owo = function () {
       }
       return el;
     };
-    /*  
-    var inputLogin = document.createElement('input');
-    inputLogin.setAttribute('type', 'text');
-    inputLogin.setAttribute('id', prefix + 'login');
-    inputLogin.setAttribute('placeholder', 'Login');
-    */
-
-    var propertiesMap = {
-      uri: '',
-      wsServers: '',
-      authorizationUser: '',
-      password: '',
-      register: '',
-      displayName: ''
-    };
 
     for (var property in propertiesMap) {
       var obj = {
         type: propertiesMap[property].type || 'text',
         id: prefix + property,
-        placeholder: property
+        name: property,
+        placeholder: propertiesMap[property].placeholder || property,
+        value: propertiesMap[property].value || ''
       };
 
       var element = createFormInput(obj);
+      configsElements.push(element);
       component.appendChild(element);
     };
         
@@ -59,11 +77,12 @@ var owo = function () {
     saveButton.setAttribute("type", "button");
     saveButton.setAttribute("value", "Save");
 
-    
-
     component.appendChild(saveButton);
 
-    return component;
+    return {
+      component: component,
+      elements: configsElements
+    };
   };
 
   var owoUIControls = function () {
@@ -94,14 +113,14 @@ var owo = function () {
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
     sipStatusIndicator.setAttribute('class', 'red')
 
-    var configUI = owoUIConfig();
+    var configUI = owoUIConfig(Config.propertiesMap);
 
     component.appendChild(sipStatusIndicator);
     component.appendChild(input);
     component.appendChild(callButton);
     component.appendChild(optionButton);
     component.appendChild(statusString);
-    component.appendChild(configUI);
+    component.appendChild(configUI.component);
 
     document.body.appendChild(component);
 
@@ -183,7 +202,7 @@ var owo = function () {
     });
 
     ui.optionButton.addEventListener('click', function (evt) {
-      ui.configUI.style.display = (ui.configUI.style.display == 'none') ? '' : 'none';
+      ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
     });
 
     sipUserAgent.on('connected', function () {
@@ -222,13 +241,16 @@ var owo = function () {
   return {
     phone: phone,
     call: call,
-    bind: bind
+    bind: bind,
+    config: Config
   };
 
 };
 
+var owoPhone;
+
 window.addEventListener("load", function (event) {
-    var owoPhone = new owo();
+    owoPhone = new owo();
     owoPhone.phone();
 
     owoPhone.bind('.call', function (target) {
