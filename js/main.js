@@ -1,27 +1,53 @@
 
 var owo = function () {
 
-  var owoControlsBind = function () {
-    var component = document.createElement("div");
-    component.setAttribute("id", "owoPhoneControls");
-    //component.setAttribute("style", "display: none;");
+  var owoUIControls = function () {
 
-    var callButton = document.createElement("div");
-    callButton.setAttribute("id", "owoPhoneControlsCallButton");
+    var prefix = 'owoPhoneControls';
+
+    var component = document.createElement("div");
+    component.setAttribute("id", prefix + "Base");
+    component.setAttribute("style", "display: block; border: 1px #EFEFEF solid;");
+
+    var callButton = document.createElement("input");
+    callButton.setAttribute("id", prefix + "CallButton");
+    callButton.type = "button";
+    callButton.value = "Call";
+
+    var optionButton = document.createElement("input");
+    optionButton.setAttribute("id", prefix + "OptionButton");
+    optionButton.type = "button";
+    optionButton.value = "*";
+    
+    var statusString = document.createElement("div");
+    statusString.setAttribute("id", prefix + "StatusString");
 
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.setAttribute('id', 'owoPhoneControlsInput');
+    input.setAttribute('id', prefix + 'Input');
 
-    var sipStatusIndicator = document.createElement('input');
-    sipStatusIndicator.setAttribute("way-data", "sipStatusIndicator");
-    //sipStatusIndicator.setAttribute("style");
+    var sipStatusIndicator = document.createElement('span');
+    sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
 
     component.appendChild(sipStatusIndicator);
     component.appendChild(input);
     component.appendChild(callButton);
+    component.appendChild(optionButton);
+    component.appendChild(statusString);
+
     document.body.appendChild(component);
-  }();
+
+    return {
+      base: component,
+      callButton: callButton,
+      optionButton: optionButton,
+      inputText: input,
+      sipStatusIndicator,
+      statusString: statusString
+    }
+  };
+
+  var ui = owoUIControls();
 
   var options = {
     media: {
@@ -42,13 +68,13 @@ var owo = function () {
     var component = document.createElement("div");
     component.setAttribute("id", "owoPhone");
 
-
     var audio = document.createElement('audio');
     audio.setAttribute("id", "owoAudio");
 
-
     component.appendChild(audio);
     document.body.appendChild(component);
+
+    return component;
   };
 
   var initSipJs = function (config1) {
@@ -67,13 +93,43 @@ var owo = function () {
       }
     };
 
-    sipUserAgent = new SIP.UA(config);    
+    sipUserAgent = new SIP.UA(config);
+  };
+
+
+  var sipUserAgentStatus = function () {
+    return {
+      //isRegistered: sipUserAgent.isRegistered(),
+      //isConnected: sipUserAgent.isConnected(),
+      color: sipUserAgent.isRegistered() ? 'green' : 
+        (sipUserAgent.isConnected() ? 'yellow' : 'red')
+    }
+  }
+
+  var addListeners = function () {
+    ui.callButton.addEventListener('click', function (evt) {
+      var target = ui.inputText.value;      
+      call(target);
+    });
+
+    sipUserAgent.on('connected', function () {
+      ui.statusString.innerHTML += sipUserAgentStatus().color;
+    });
+    sipUserAgent.on('disconnected', function () {
+      ui.statusString.innerHTML += sipUserAgentStatus().color;
+    });
+    sipUserAgent.on('registered', function () {
+      ui.statusString.innerHTML += sipUserAgentStatus().color;
+    });
   };
 
   var phone = function (config) {
     prepareLayout();
     initSipJs(config);
+
+    addListeners();
   };
+
 
   var call = function (target) {
     sipUserAgent.invite(target, options);
@@ -81,7 +137,7 @@ var owo = function () {
 
   var bind = function (selectors, callback) {
     elementList = document.querySelectorAll(selectors);
-    console.log(elementList);
+    //console.log(elementList);
     Array.prototype.forEach.call(elementList, function (element) {
       return element.addEventListener('click', function () {
         callback(element.innerHTML);
@@ -96,3 +152,12 @@ var owo = function () {
   };
 
 };
+
+window.addEventListener("load", function (event) {
+    var owoPhone = new owo();
+    owoPhone.phone();
+
+    owoPhone.bind('.call', function (target) {
+      owoPhone.call(target);
+    });
+});
