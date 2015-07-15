@@ -4,6 +4,21 @@
   border: 1px #EFEFEF solid;
 }
 
+#owoPhoneControlsBase .green {
+  color: green;
+  background-color: green;
+}
+
+#owoPhoneControlsBase .yellow {
+  color: yellow;
+  background-color: yellow;
+}
+
+#owoPhoneControlsBase .red {
+  color: red;
+  background-color: red;
+}
+
 #owoPhoneControlsSipStatusIndicator {
   display: inline-block;
   min-width: 10px;
@@ -12,17 +27,11 @@
   height: 10px; 
 }
 
-#owoPhoneControlsSipStatusIndicator .green {
-  color: green;
-  background-color: green;
+
+#owoPhoneConfigBase {
+  
 }
 
-#owoPhoneControlsSipStatusIndicator .yellow {
-  color: yellow;
-  background-color: yellow;
-}
-
-#owoPhoneControlsSipStatusIndicator .red {
-  color: red;
-  background-color: red;
+#owoPhoneConfigBase .show {
+  display: block;
 }

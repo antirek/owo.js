@@ -1,17 +1,72 @@
 
 var owo = function () {
 
+  var sheet = (function () {
+    var style = document.createElement("style");
+    style.setAttribute('type', 'text/css');
+
+    style.appendChild(document.createTextNode(cssOwoPhone));
+    document.head.appendChild(style);
+
+    return style.sheet;
+  })();
+
+  var owoUIConfig = function () {
+    var prefix = "owoPhoneConfig";
+
+    var component = document.createElement("div");
+    component.setAttribute("id", prefix + "Base");
+    component.style.display = 'none';
+
+    var createFormInput = function (obj) {
+      var el = document.createElement('input');
+      
+      for (var property in obj) {
+        el.setAttribute(property, obj[property])
+      }
+      return el;
+    };
+    /*  
+    var inputLogin = document.createElement('input');
+    inputLogin.setAttribute('type', 'text');
+    inputLogin.setAttribute('id', prefix + 'login');
+    inputLogin.setAttribute('placeholder', 'Login');
+    */
+
+    var propertiesMap = {
+      uri: '',
+      wsServers: '',
+      authorizationUser: '',
+      password: '',
+      register: '',
+      displayName: ''
+    };
+
+    for (var property in propertiesMap) {
+      var obj = {
+        type: propertiesMap[property].type || 'text',
+        id: prefix + property,
+        placeholder: property
+      };
+
+      var element = createFormInput(obj);
+      component.appendChild(element);
+    };
+        
+
+    var saveButton = document.createElement("input");
+    saveButton.setAttribute("id", prefix + "SaveButton");
+    saveButton.setAttribute("type", "button");
+    saveButton.setAttribute("value", "Save");
+
+    
+
+    component.appendChild(saveButton);
+
+    return component;
+  };
+
   var owoUIControls = function () {
-
-    var sheet = (function () {
-        var style = document.createElement("style");
-        style.setAttribute('type', 'text/css');
-
-        style.appendChild(document.createTextNode(cssOwoPhone));
-        document.head.appendChild(style);
-
-        return style.sheet;
-    })();
 
     var prefix = 'owoPhoneControls';
 
@@ -37,13 +92,16 @@ var owo = function () {
 
     var sipStatusIndicator = document.createElement('div');
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
-    sipStatusIndicator.setAttribute('class', 'red');
+    sipStatusIndicator.setAttribute('class', 'red')
+
+    var configUI = owoUIConfig();
 
     component.appendChild(sipStatusIndicator);
     component.appendChild(input);
     component.appendChild(callButton);
     component.appendChild(optionButton);
     component.appendChild(statusString);
+    component.appendChild(configUI);
 
     document.body.appendChild(component);
 
@@ -53,7 +111,8 @@ var owo = function () {
       optionButton: optionButton,
       inputText: input,
       sipStatusIndicator: sipStatusIndicator,
-      statusString: statusString
+      statusString: statusString,
+      configUI: configUI
     }
   };
 
@@ -97,8 +156,9 @@ var owo = function () {
       authorizationUser: '1004',
       password: '1234',
       register: true,
+      displayName: 'Ivan',
       log: {
-        builtinEnabled: true,
+        builtinEnabled: false,
         level: 'debug'
       }
     };
@@ -122,6 +182,10 @@ var owo = function () {
       call(target);
     });
 
+    ui.optionButton.addEventListener('click', function (evt) {
+      ui.configUI.style.display = (ui.configUI.style.display == 'none') ? '' : 'none';
+    });
+
     sipUserAgent.on('connected', function () {
       ui.sipStatusIndicator.setAttribute("class", sipUserAgentStatus().color);
     });
@@ -142,7 +206,7 @@ var owo = function () {
 
 
   var call = function (target) {
-    sipUserAgent.invite(target, options);
+    if (target !== '') sipUserAgent.invite(target, options);
   };
 
   var bind = function (selectors, callback) {
@@ -162,7 +226,6 @@ var owo = function () {
   };
 
 };
-
 
 window.addEventListener("load", function (event) {
     var owoPhone = new owo();
