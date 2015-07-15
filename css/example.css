@@ -1,0 +1,28 @@
+
+#owoPhoneControlsBase {
+  display: block; 
+  border: 1px #EFEFEF solid;
+}
+
+#owoPhoneControlsSipStatusIndicator {
+  display: inline-block;
+  min-width: 10px;
+  min-height: 10px;
+  width: 10px;
+  height: 10px; 
+}
+
+#owoPhoneControlsSipStatusIndicator .green {
+  color: green;
+  background-color: green;
+}
+
+#owoPhoneControlsSipStatusIndicator .yellow {
+  color: yellow;
+  background-color: yellow;
+}
+
+#owoPhoneControlsSipStatusIndicator .red {
+  color: red;
+  background-color: red;
+}

@@ -3,21 +3,30 @@ var owo = function () {
 
   var owoUIControls = function () {
 
+    var sheet = (function () {
+        var style = document.createElement("style");
+        style.setAttribute('type', 'text/css');
+
+        style.appendChild(document.createTextNode(cssOwoPhone));
+        document.head.appendChild(style);
+
+        return style.sheet;
+    })();
+
     var prefix = 'owoPhoneControls';
 
     var component = document.createElement("div");
-    component.setAttribute("id", prefix + "Base");
-    component.setAttribute("style", "display: block; border: 1px #EFEFEF solid;");
+    component.setAttribute("id", prefix + "Base");    
 
     var callButton = document.createElement("input");
     callButton.setAttribute("id", prefix + "CallButton");
-    callButton.type = "button";
-    callButton.value = "Call";
+    callButton.setAttribute("type", "button");
+    callButton.setAttribute("value", "Call");
 
     var optionButton = document.createElement("input");
     optionButton.setAttribute("id", prefix + "OptionButton");
-    optionButton.type = "button";
-    optionButton.value = "*";
+    optionButton.setAttribute("type", "button");
+    optionButton.setAttribute("value", "*");
     
     var statusString = document.createElement("div");
     statusString.setAttribute("id", prefix + "StatusString");
@@ -26,8 +35,9 @@ var owo = function () {
     input.setAttribute('type', 'text');
     input.setAttribute('id', prefix + 'Input');
 
-    var sipStatusIndicator = document.createElement('span');
+    var sipStatusIndicator = document.createElement('div');
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
+    sipStatusIndicator.setAttribute('class', 'red');
 
     component.appendChild(sipStatusIndicator);
     component.appendChild(input);
@@ -42,7 +52,7 @@ var owo = function () {
       callButton: callButton,
       optionButton: optionButton,
       inputText: input,
-      sipStatusIndicator,
+      sipStatusIndicator: sipStatusIndicator,
       statusString: statusString
     }
   };
@@ -113,13 +123,13 @@ var owo = function () {
     });
 
     sipUserAgent.on('connected', function () {
-      ui.statusString.innerHTML += sipUserAgentStatus().color;
+      ui.sipStatusIndicator.setAttribute("class", sipUserAgentStatus().color);
     });
     sipUserAgent.on('disconnected', function () {
-      ui.statusString.innerHTML += sipUserAgentStatus().color;
+      ui.sipStatusIndicator.setAttribute("class", sipUserAgentStatus().color);
     });
     sipUserAgent.on('registered', function () {
-      ui.statusString.innerHTML += sipUserAgentStatus().color;
+      ui.sipStatusIndicator.setAttribute("class", sipUserAgentStatus().color);
     });
   };
 
@@ -152,6 +162,7 @@ var owo = function () {
   };
 
 };
+
 
 window.addEventListener("load", function (event) {
     var owoPhone = new owo();

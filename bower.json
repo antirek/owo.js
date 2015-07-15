@@ -14,7 +14,6 @@
     "tests"
   ],
   "dependencies": {
-    "sip.js": "~0.7.0",
-    "way.js": "*"
+    "sip.js": "~0.7.0"
   }
 }
