@@ -166,10 +166,18 @@ var owo = function () {
 
     var sipStatusIndicator = document.createElement('div');
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
-    sipStatusIndicator.setAttribute('class', 'red')
+    sipStatusIndicator.setAttribute('class', 'red');
+
+    var icon = document.createElement("img");
+    var iconSvg = '<svg width="24" height="24 " xmlns="http://www.w3.org/2000/svg"><g><path clip-rule="evenodd" d="m6.47719,1.62291c1.21752,-0.22999 2.01542,1.14288 2.62266,2.09006c0.59111,0.91995 1.31839,1.99927 1.02485,3.19662c-0.16341,0.67181 -0.77066,1.03797 -1.22963,1.43439c-0.45291,0.39138 -1.14288,0.75048 -1.31032,1.35168c-0.27336,0.97543 0.32481,1.99927 0.69501,2.58231c0.84126,1.31738 1.85805,2.50464 3.15627,3.5648c0.62843,0.51445 1.50097,1.20138 2.37553,1.02485c1.30629,-0.26428 1.65127,-1.8752 3.07355,-2.09006c1.35369,-0.20477 2.26961,0.77671 3.03421,1.4344c0.73636,0.6365 1.92463,1.45154 1.84393,2.54196c-0.04741,0.62641 -0.54975,1.01477 -0.98552,1.39304c-0.44283,0.38634 -0.83118,0.82009 -1.26896,1.10555c-1.06016,0.69198 -2.36039,1.03091 -3.85329,0.98451c-1.46364,-0.04539 -2.62972,-0.54269 -3.68786,-1.10656c-2.06888,-1.10354 -3.704,-2.65595 -5.24431,-4.3859c-1.51509,-1.7007 -2.91418,-3.71409 -3.68786,-5.94032c-0.96534,-2.78002 -0.45493,-5.63569 1.10757,-7.41708c0.26428,-0.30261 0.68189,-0.61834 1.06419,-0.94315c0.38129,-0.32582 0.73434,-0.72022 1.26997,-0.82109z" fill="#FFFFFF" fill-rule="evenodd"/></g></svg>';
+    var iconEncoded = encodeURIComponent(iconSvg);
+    icon.setAttribute('src', 'data:image/svg+xml;utf8,' + iconEncoded);
+    icon.setAttribute('id', prefix + 'phoneIcon');
+    icon.setAttribute('style', 'padding: 0px 10px 0px 0px; margin: 0px 0px 0px 0px; vertical-align: middle;');
 
     var configUI = owoUIConfig(Config.propertiesMap);
 
+    component.appendChild(icon);
     component.appendChild(sipStatusIndicator);
     component.appendChild(input);
     component.appendChild(callButton);
