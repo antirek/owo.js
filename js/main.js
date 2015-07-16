@@ -145,10 +145,12 @@ var owo = function () {
       }
     });
 
-    var callButton = document.createElement("input");
+    var callButton = document.createElement("button");
     callButton.setAttribute("id", prefix + "CallButton");
     callButton.setAttribute("type", "button");
-    callButton.setAttribute("value", "Call");
+    callButton.setAttribute("class", "btn-b");
+    //callButton.setAttribute("value", "Call");
+    callButton.innerHTML = 'Call';
 
     var optionButton = document.createElement("input");
     optionButton.setAttribute("id", prefix + "OptionButton");
@@ -180,7 +182,7 @@ var owo = function () {
     var configUI = owoUIConfig(Config.propertiesMap);
 
     component.appendChild(icon);
-    component.appendChild(sipStatusIndicator);
+    //component.appendChild(sipStatusIndicator);
     component.appendChild(input);
     component.appendChild(callButton);
     component.appendChild(optionButton);

@@ -1,18 +1,16 @@
-#owoPhoneControlsBase i,
-#owoPhoneControlsBase button {
-  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
-}
 #owoPhoneControlsBase button {
   background: #aaa;
-  box-shadow: 3px 3px #000;
-  /* unshortenable */
+  /* box-shadow: 3px 3px #000; // unshortenable   */
   color: #fff;
-  font-size: 16px;
-  padding: 2px 10px 2px;
+  /* font-size: 16px;  */
+  border: 1px solid #aaa;
+  font-size: .8em;
+  outline: none;
+  padding: 6px 10px 6px 10px;
+  font-family: sans-serif;
   text-decoration: none;
   /* margin: .3em .7em; */
   cursor: pointer;
-  border: none;
 }
 #owoPhoneControlsBase button.btn-a {
   background: #0ae;
@@ -31,10 +29,12 @@
 #owoPhoneControlsBase button.btn-b:hover {
   background: #2b4;
   /* darken(@btn-b-bg, 5%) */
+  border: 1px solid #2b4;
 }
 #owoPhoneControlsBase button.btn-b:active {
   background: #2a4;
   /* darken(@btn-b-bg, 10%) */
+  border: 1px solid #2b4;
 }
 #owoPhoneControlsBase button.btn-c {
   background: #d33;
