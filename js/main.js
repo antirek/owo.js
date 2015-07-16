@@ -204,20 +204,7 @@ var owo = function () {
     }
   };
 
-  var ui = owoUIControls();
-
-  var options = {
-    media: {
-      constraints: {
-        audio: true,
-        video: false
-      },
-      render: {
-        remote: document.getElementById('owoAudio'),
-        local: document.getElementById('owoAudio')
-      }
-    }
-  };
+  var ui = owoUIControls();  
 
   var sipUserAgent;
 
@@ -226,20 +213,18 @@ var owo = function () {
     component.setAttribute("id", "owoPhone");
 
     var audio = document.createElement('audio');
-    audio.setAttribute("id", "owoAudio");
+    audio.setAttribute("id", "owoAudio");    
 
     component.appendChild(audio);
-    document.body.appendChild(component);
-
-    return component;
+    document.body.appendChild(component);    
   };
 
-  var initSipJs = function (config1) {
+  var initSipJs = function () {
 
     //@todo: get options from remote side    
 
     var config = Config.getOptionFromStorage();
-    console.log('config', config);
+    //console.log('config', config);
     sipUserAgent = new SIP.UA(config);
   };
 
@@ -276,16 +261,16 @@ var owo = function () {
     });
   };
 
-  var phone = function (config) {
+  var phone = function () {
     prepareLayout();
-    initSipJs(config);
+    initSipJs();
 
     addListeners();
   };
 
 
   var call = function (target) {
-    if (target !== '') sipUserAgent.invite(target, options);
+    if (target !== '') sipUserAgent.invite(target, document.getElementById('owoAudio'));
   };
 
   var bind = function (selectors, callback) {
