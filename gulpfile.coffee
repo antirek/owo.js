@@ -19,8 +19,7 @@ gulp.task 'default', ['less'], ()->
   .on 'data', (data)->
     insertedCss = data.contents.toString()
     gulp.src [
-        './bower_components/sip.js/dist/sip.js' 
-        './js/css.js'        
+        './bower_components/sip.js/dist/sip.js'
         './js/main.js'
       ]
       .pipe replace global: insertedCss: insertedCss

@@ -2,6 +2,8 @@
 var owo = function () {
 
   var sheet = (function () {
+    var cssOwoPhone = '{{insertedCss}}';
+    
     var style = document.createElement("style");
     style.setAttribute('type', 'text/css');
 
@@ -232,21 +234,7 @@ var owo = function () {
 
   var initSipJs = function (config1) {
 
-    //@todo: get options from remote side
-    /*
-    var config = {
-      uri: '1004@109.234.38.141',
-      wsServers: 'ws://109.234.38.141:5066',
-      authorizationUser: '1004',
-      password: '1234',
-      register: true,
-      displayName: 'Ivan',
-      log: {
-        builtinEnabled: false,
-        level: 'debug'
-      }
-    };
-    */
+    //@todo: get options from remote side    
 
     var config = Config.getOptionFromStorage();
     console.log('config', config);
@@ -256,8 +244,6 @@ var owo = function () {
 
   var sipUserAgentStatus = function () {
     return {
-      //isRegistered: sipUserAgent.isRegistered(),
-      //isConnected: sipUserAgent.isConnected(),
       color: sipUserAgent.isRegistered() ? 'green' : 
         (sipUserAgent.isConnected() ? 'yellow' : 'red')
     }
