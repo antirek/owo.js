@@ -44,6 +44,10 @@ var owo = function () {
     var prefix = "owoPhoneConfig";
     var configsElements = [];
 
+    var overlay = document.createElement("div");
+    overlay.setAttribute("id", prefix + "BaseOverlay");
+    overlay.style.display = 'none';
+
     var component = document.createElement("div");
     component.setAttribute("id", prefix + "Base");
     component.style.display = 'none';
@@ -78,10 +82,24 @@ var owo = function () {
     saveButton.setAttribute("type", "button");
     saveButton.setAttribute("value", "Save");
 
+    var closeButton = document.createElement("input");
+    closeButton.setAttribute("id", prefix + "CloseButton");
+    closeButton.setAttribute("type", "button");
+    closeButton.setAttribute("value", "Close");
+
+    closeButton.addEventListener('click', function (evt) {
+      component.style.display = (component.style.display == 'none') ? '' : 'none';
+      overlay.style.display = (overlay.style.display == 'none') ? '' : 'none';
+    });
+
     component.appendChild(saveButton);
+    component.appendChild(closeButton);
+
+    //overlay.appendChild(component);
 
     return {
       component: component,
+      overlay: overlay,
       elements: configsElements
     };
   };
@@ -121,6 +139,8 @@ var owo = function () {
     component.appendChild(callButton);
     component.appendChild(optionButton);
     component.appendChild(statusString);
+
+    component.appendChild(configUI.overlay);
     component.appendChild(configUI.component);
 
     document.body.appendChild(component);
@@ -204,6 +224,7 @@ var owo = function () {
 
     ui.optionButton.addEventListener('click', function (evt) {
       ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
+      ui.configUI.overlay.style.display = (ui.configUI.overlay.style.display == 'none') ? '' : 'none';
     });
 
     sipUserAgent.on('connected', function () {

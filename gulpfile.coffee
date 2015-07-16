@@ -29,4 +29,4 @@ gulp.task 'default', ['less'], ()->
 
 
 gulp.task 'watch', ['default'], ()->
-  gulp.watch ['./js/*.js'], ['default']
+  gulp.watch ['./js/*.js', './css/*.css'], ['default']

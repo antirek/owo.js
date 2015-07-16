@@ -11376,7 +11376,7 @@ module.exports = _dereq_('./SIP')(_dereq_('./environment'));
 },{"./SIP":19,"./environment":35}]},{},[36])
 (36)
 });
-var cssOwoPhone = '#owoPhoneControlsBase{display:block;border:1px solid #EFEFEF}#owoPhoneControlsBase .green{color:green;background-color:green}#owoPhoneControlsBase .yellow{color:#ff0;background-color:#ff0}#owoPhoneControlsBase .red{color:red;background-color:red}#owoPhoneControlsSipStatusIndicator{display:inline-block;min-width:10px;min-height:10px;width:10px;height:10px}#owoPhoneControlsBase button,#owoPhoneControlsBase i{font-family:Lucida Sans Unicode,Lucida Grande,sans-serif}#owoPhoneControlsBase button{background:#aaa;box-shadow:3px 3px #000;color:#fff;font-size:16px;padding:2px 10px;text-decoration:none;cursor:pointer;border:none}#owoPhoneControlsBase button.btn-a{background:#0ae}#owoPhoneControlsBase button.btn-a:hover{background:#09d}#owoPhoneControlsBase button.btn-a:active{background:#08b}#owoPhoneControlsBase button.btn-b{background:#3c5}#owoPhoneControlsBase button.btn-b:hover{background:#2b4}#owoPhoneControlsBase button.btn-b:active{background:#2a4}#owoPhoneControlsBase button.btn-c{background:#d33}#owoPhoneControlsBase button.btn-c:hover{background:#c22}#owoPhoneControlsBase button.btn-c:active{background:#b22}#owoPhoneControlsBase button.btn-small{padding:2px 9px;font-size:16px}#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{outline:0;padding:6px;font-family:sans-serif}#owoPhoneControlsBase input:focus,#owoPhoneControlsBase textarea:focus{border:1px solid #5ab}#owoPhoneControlsBase input[type=text],#owoPhoneControlsBase textarea{width:13em}#owoPhoneControlsBase .addon-front{padding:6px 11px 6px 10px;margin-right:-2px}#owoPhoneControlsBase .addon-front,#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{border:1px solid #ccc;font-size:.8em}';
+var cssOwoPhone = '#owoPhoneControlsBase{display:block;border:1px solid #EFEFEF}#owoPhoneControlsBase .green{color:green;background-color:green}#owoPhoneControlsBase .yellow{color:#ff0;background-color:#ff0}#owoPhoneControlsBase .red{color:red;background-color:red}#owoPhoneControlsSipStatusIndicator{display:inline-block;min-width:10px;min-height:10px;width:10px;height:10px}#owoPhoneControlsBase button,#owoPhoneControlsBase i{font-family:Lucida Sans Unicode,Lucida Grande,sans-serif}#owoPhoneControlsBase button{background:#aaa;box-shadow:3px 3px #000;color:#fff;font-size:16px;padding:2px 10px;text-decoration:none;cursor:pointer;border:none}#owoPhoneControlsBase button.btn-a{background:#0ae}#owoPhoneControlsBase button.btn-a:hover{background:#09d}#owoPhoneControlsBase button.btn-a:active{background:#08b}#owoPhoneControlsBase button.btn-b{background:#3c5}#owoPhoneControlsBase button.btn-b:hover{background:#2b4}#owoPhoneControlsBase button.btn-b:active{background:#2a4}#owoPhoneControlsBase button.btn-c{background:#d33}#owoPhoneControlsBase button.btn-c:hover{background:#c22}#owoPhoneControlsBase button.btn-c:active{background:#b22}#owoPhoneControlsBase button.btn-small{padding:2px 9px;font-size:16px}#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{outline:0;padding:6px;font-family:sans-serif}#owoPhoneControlsBase input:focus,#owoPhoneControlsBase textarea:focus{border:1px solid #5ab}#owoPhoneControlsBase input[type=text],#owoPhoneControlsBase textarea{width:13em}#owoPhoneControlsBase .addon-front{padding:6px 11px 6px 10px;margin-right:-2px}#owoPhoneControlsBase .addon-front,#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{border:1px solid #ccc;font-size:.8em}body{margin:0;padding:0}#owoPhoneConfigBaseOverlay{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#000;filter:alpha(opacity=.5);opacity:.5;-moz-opacity:.5;z-index:100;text-align:center;vertical-align:middle}#owoPhoneConfigBase{background-color:#FFF;position:absolute;z-index:1000;margin:10px;padding:10px;border:1px solid #efefef;width:40%;top:20%;left:30%}';
 
 var owo = function () {
 
@@ -11423,6 +11423,10 @@ var owo = function () {
     var prefix = "owoPhoneConfig";
     var configsElements = [];
 
+    var overlay = document.createElement("div");
+    overlay.setAttribute("id", prefix + "BaseOverlay");
+    overlay.style.display = 'none';
+
     var component = document.createElement("div");
     component.setAttribute("id", prefix + "Base");
     component.style.display = 'none';
@@ -11457,10 +11461,24 @@ var owo = function () {
     saveButton.setAttribute("type", "button");
     saveButton.setAttribute("value", "Save");
 
+    var closeButton = document.createElement("input");
+    closeButton.setAttribute("id", prefix + "CloseButton");
+    closeButton.setAttribute("type", "button");
+    closeButton.setAttribute("value", "Close");
+
+    closeButton.addEventListener('click', function (evt) {
+      component.style.display = (component.style.display == 'none') ? '' : 'none';
+      overlay.style.display = (overlay.style.display == 'none') ? '' : 'none';
+    });
+
     component.appendChild(saveButton);
+    component.appendChild(closeButton);
+
+    //overlay.appendChild(component);
 
     return {
       component: component,
+      overlay: overlay,
       elements: configsElements
     };
   };
@@ -11500,6 +11518,8 @@ var owo = function () {
     component.appendChild(callButton);
     component.appendChild(optionButton);
     component.appendChild(statusString);
+
+    component.appendChild(configUI.overlay);
     component.appendChild(configUI.component);
 
     document.body.appendChild(component);
@@ -11583,6 +11603,7 @@ var owo = function () {
 
     ui.optionButton.addEventListener('click', function (evt) {
       ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
+      ui.configUI.overlay.style.display = (ui.configUI.overlay.style.display == 'none') ? '' : 'none';
     });
 
     sipUserAgent.on('connected', function () {
