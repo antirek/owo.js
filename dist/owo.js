@@ -11397,7 +11397,11 @@ var owo = function () {
       wsServers: '',
       authorizationUser: '',
       password: '',
-      register: '',
+      register: {
+        prepare: function (value) {
+          return value === 'true';
+        }
+      },
       displayName: ''
     },
     getOptionFromForm: function () {
@@ -11414,6 +11418,21 @@ var owo = function () {
       for (var element in ui.configUI.elements){
         ui.configUI.elements[element].value = object[ui.configUI.elements[element].name] || '';
       }
+    },
+    getOptionFromStorage: function () {
+      var storage = window.localStorage;
+      var obj = {};
+      for (var key in this.propertiesMap){
+        obj[key] = (this.propertiesMap[key].prepare) ? 
+          this.propertiesMap[key].prepare(storage.getItem(key)) : storage.getItem(key);
+      }
+      return obj;
+    },
+    saveOptionToStorage: function (object){
+      var storage = window.localStorage;
+      for (var element in object){
+        storage.setItem(element, object[element]);
+      };
     }
   };
 
@@ -11460,6 +11479,10 @@ var owo = function () {
     saveButton.setAttribute("id", prefix + "SaveButton");
     saveButton.setAttribute("type", "button");
     saveButton.setAttribute("value", "Save");
+
+    saveButton.addEventListener('click', function (evt) {      
+      Config.saveOptionToStorage(Config.getOptionFromForm());
+    });
 
     var closeButton = document.createElement("input");
     closeButton.setAttribute("id", prefix + "CloseButton");
@@ -11568,7 +11591,7 @@ var owo = function () {
   var initSipJs = function (config1) {
 
     //@todo: get options from remote side
-
+    /*
     var config = {
       uri: '1004@109.234.38.141',
       wsServers: 'ws://109.234.38.141:5066',
@@ -11581,7 +11604,10 @@ var owo = function () {
         level: 'debug'
       }
     };
+    */
 
+    var config = Config.getOptionFromStorage();
+    console.log('config', config);
     sipUserAgent = new SIP.UA(config);
   };
 
@@ -11597,11 +11623,12 @@ var owo = function () {
 
   var addListeners = function () {
     ui.callButton.addEventListener('click', function (evt) {
-      var target = ui.inputText.value;      
+      var target = ui.inputText.value;
       call(target);
     });
 
     ui.optionButton.addEventListener('click', function (evt) {
+      Config.setOptionToForm(Config.getOptionFromStorage());
       ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
       ui.configUI.overlay.style.display = (ui.configUI.overlay.style.display == 'none') ? '' : 'none';
     });
