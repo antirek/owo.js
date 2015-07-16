@@ -50,6 +50,7 @@ var owo = function () {
 
     var createFormInput = function (obj) {
       var el = document.createElement('input');
+      el.setAttribute('class', 'smooth');
       
       for (var property in obj) {
         el.setAttribute(property, obj[property])

@@ -1,0 +1,78 @@
+#owoPhoneControlsBase i,
+#owoPhoneControlsBase button {
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+}
+#owoPhoneControlsBase button {
+  background: #aaa;
+  box-shadow: 3px 3px #000;
+  /* unshortenable */
+  color: #fff;
+  font-size: 16px;
+  padding: 2px 10px 2px;
+  text-decoration: none;
+  /* margin: .3em .7em; */
+  cursor: pointer;
+  border: none;
+}
+#owoPhoneControlsBase button.btn-a {
+  background: #0ae;
+}
+#owoPhoneControlsBase button.btn-a:hover {
+  background: #09d;
+  /* darken(@btn-a-bg, 5%) */
+}
+#owoPhoneControlsBase button.btn-a:active {
+  background: #08b;
+  /* darken(@btn-a-bg, 10%) */
+}
+#owoPhoneControlsBase button.btn-b {
+  background: #3c5;
+}
+#owoPhoneControlsBase button.btn-b:hover {
+  background: #2b4;
+  /* darken(@btn-b-bg, 5%) */
+}
+#owoPhoneControlsBase button.btn-b:active {
+  background: #2a4;
+  /* darken(@btn-b-bg, 10%) */
+}
+#owoPhoneControlsBase button.btn-c {
+  background: #d33;
+}
+#owoPhoneControlsBase button.btn-c:hover {
+  background: #c22;
+  /* darken(@btn-c-bg, 5%) */
+}
+#owoPhoneControlsBase button.btn-c:active {
+  background: #b22;
+  /* darken(@btn-c-bg, 10%) */
+}
+#owoPhoneControlsBase button.btn-small {
+  padding: 2px 9px;
+  font-size: 16px;
+}
+#owoPhoneControlsBase textarea,
+#owoPhoneControlsBase input {
+  outline: none;
+  padding: 6px;
+  font-family: sans-serif;
+}
+#owoPhoneControlsBase textarea:focus,
+#owoPhoneControlsBase input:focus {
+  border: 1px solid #5ab;
+}
+#owoPhoneControlsBase textarea,
+#owoPhoneControlsBase input[type='text'] {
+  width: 13em;
+}
+#owoPhoneControlsBase .addon-front {
+  padding: 6px 11px 6px 10px;
+  margin-right: -2px;
+  border-right: 0;
+}
+#owoPhoneControlsBase textarea,
+#owoPhoneControlsBase input,
+#owoPhoneControlsBase .addon-front {
+  border: 1px solid #ccc;
+  font-size: .8em;
+}
