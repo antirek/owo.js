@@ -134,6 +134,15 @@ var owo = function () {
     var component = document.createElement("div");
     component.setAttribute("id", prefix + "Base");    
 
+    component.addEventListener('click', function (evt) {
+      var right = component.getAttribute('style') || '';
+      if (right.indexOf('right:0px;') == -1) {
+        component.setAttribute('style', 'right:0px;');
+      } else {
+        component.setAttribute('style', 'right:-235px;')
+      }
+    });
+
     var callButton = document.createElement("input");
     callButton.setAttribute("id", prefix + "CallButton");
     callButton.setAttribute("type", "button");
@@ -151,6 +160,10 @@ var owo = function () {
     input.setAttribute('type', 'text');
     input.setAttribute('id', prefix + 'Input');
 
+    input.addEventListener('click', function (evt) {
+      if (evt.stopPropagation) evt.stopPropagation();
+    });
+
     var sipStatusIndicator = document.createElement('div');
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
     sipStatusIndicator.setAttribute('class', 'red')
@@ -163,8 +176,8 @@ var owo = function () {
     component.appendChild(optionButton);
     component.appendChild(statusString);
 
-    component.appendChild(configUI.overlay);
-    component.appendChild(configUI.component);
+    document.body.appendChild(configUI.overlay);
+    document.body.appendChild(configUI.component);
 
     document.body.appendChild(component);
 
@@ -244,6 +257,7 @@ var owo = function () {
 
   var addListeners = function () {
     ui.callButton.addEventListener('click', function (evt) {
+      if (evt.stopPropagation) evt.stopPropagation();
       var target = ui.inputText.value;
       call(target);
     });
@@ -252,6 +266,7 @@ var owo = function () {
       Config.setOptionToForm(Config.getOptionFromStorage());
       ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
       ui.configUI.overlay.style.display = (ui.configUI.overlay.style.display == 'none') ? '' : 'none';
+      if (evt.stopPropagation) evt.stopPropagation();
     });
 
     sipUserAgent.on('connected', function () {

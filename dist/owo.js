@@ -11376,7 +11376,7 @@ module.exports = _dereq_('./SIP')(_dereq_('./environment'));
 },{"./SIP":19,"./environment":35}]},{},[36])
 (36)
 });
-var cssOwoPhone = '#owoPhoneControlsBase{display:block;border:1px solid #EFEFEF}#owoPhoneControlsBase .green{color:green;background-color:green}#owoPhoneControlsBase .yellow{color:#ff0;background-color:#ff0}#owoPhoneControlsBase .red{color:red;background-color:red}#owoPhoneControlsSipStatusIndicator{display:inline-block;min-width:10px;min-height:10px;width:10px;height:10px}#owoPhoneControlsBase button,#owoPhoneControlsBase i{font-family:Lucida Sans Unicode,Lucida Grande,sans-serif}#owoPhoneControlsBase button{background:#aaa;box-shadow:3px 3px #000;color:#fff;font-size:16px;padding:2px 10px;text-decoration:none;cursor:pointer;border:none}#owoPhoneControlsBase button.btn-a{background:#0ae}#owoPhoneControlsBase button.btn-a:hover{background:#09d}#owoPhoneControlsBase button.btn-a:active{background:#08b}#owoPhoneControlsBase button.btn-b{background:#3c5}#owoPhoneControlsBase button.btn-b:hover{background:#2b4}#owoPhoneControlsBase button.btn-b:active{background:#2a4}#owoPhoneControlsBase button.btn-c{background:#d33}#owoPhoneControlsBase button.btn-c:hover{background:#c22}#owoPhoneControlsBase button.btn-c:active{background:#b22}#owoPhoneControlsBase button.btn-small{padding:2px 9px;font-size:16px}#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{outline:0;padding:6px;font-family:sans-serif}#owoPhoneControlsBase input:focus,#owoPhoneControlsBase textarea:focus{border:1px solid #5ab}#owoPhoneControlsBase input[type=text],#owoPhoneControlsBase textarea{width:13em}#owoPhoneControlsBase .addon-front{padding:6px 11px 6px 10px;margin-right:-2px}#owoPhoneControlsBase .addon-front,#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{border:1px solid #ccc;font-size:.8em}body{margin:0;padding:0}#owoPhoneConfigBaseOverlay{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#000;filter:alpha(opacity=.5);opacity:.5;-moz-opacity:.5;z-index:100;text-align:center;vertical-align:middle}#owoPhoneConfigBase{background-color:#FFF;position:absolute;z-index:1000;margin:10px;padding:10px;border:1px solid #efefef;width:40%;top:20%;left:30%}';
+var cssOwoPhone = '#owoPhoneControlsBase{position:fixed!important;top:150px!important;right:-235px;width:240px!important;background:#0094d6!important;padding:10px;max-height:60px;color:#fff!important;text-align:center!important;-webkit-transition-duration:.3s;-moz-transition-duration:.3s;-o-transition-duration:.3s;transition-duration:.3s!important;-webkit-border-radius:2px 0 0 2px;-moz-border-radius:2px 0 0 2px;border-radius:10px 0 0 10px!important;line-height:20px!important;box-shadow:0 0 10px rgba(0,0,0,.5)!important;white-space:nowrap!important;z-index:10000!important}#owoPhoneControlsBase .open{right:0}#owoPhoneControlsBase1{display:block;border:1px solid #EFEFEF}#owoPhoneControlsBase .green{color:green;background-color:green}#owoPhoneControlsBase .yellow{color:#ff0;background-color:#ff0}#owoPhoneControlsBase .red{color:red;background-color:red}#owoPhoneControlsSipStatusIndicator{display:inline-block;min-width:10px;min-height:10px;width:10px;height:10px}#owoPhoneControlsBase button,#owoPhoneControlsBase i{font-family:Lucida Sans Unicode,Lucida Grande,sans-serif}#owoPhoneControlsBase button{background:#aaa;box-shadow:3px 3px #000;color:#fff;font-size:16px;padding:2px 10px;text-decoration:none;cursor:pointer;border:none}#owoPhoneControlsBase button.btn-a{background:#0ae}#owoPhoneControlsBase button.btn-a:hover{background:#09d}#owoPhoneControlsBase button.btn-a:active{background:#08b}#owoPhoneControlsBase button.btn-b{background:#3c5}#owoPhoneControlsBase button.btn-b:hover{background:#2b4}#owoPhoneControlsBase button.btn-b:active{background:#2a4}#owoPhoneControlsBase button.btn-c{background:#d33}#owoPhoneControlsBase button.btn-c:hover{background:#c22}#owoPhoneControlsBase button.btn-c:active{background:#b22}#owoPhoneControlsBase button.btn-small{padding:2px 9px;font-size:16px}#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{outline:0;padding:6px;font-family:sans-serif}#owoPhoneControlsBase input:focus,#owoPhoneControlsBase textarea:focus{border:1px solid #5ab}#owoPhoneControlsBase input[type=text],#owoPhoneControlsBase textarea{width:13em}#owoPhoneControlsBase .addon-front{padding:6px 11px 6px 10px;margin-right:-2px}#owoPhoneControlsBase .addon-front,#owoPhoneControlsBase input,#owoPhoneControlsBase textarea{border:1px solid #ccc;font-size:.8em}body{margin:0;padding:0}#owoPhoneConfigBaseOverlay{position:fixed;left:0;top:0;width:100%;height:100%;background-color:#000;filter:alpha(opacity=.5);opacity:.5;-moz-opacity:.5;z-index:10001;text-align:center;vertical-align:middle}#owoPhoneConfigBase{background-color:#FFF;position:fixed;z-index:10002;margin:10px;padding:10px;border:1px solid #efefef;width:40%;top:20%;left:30%}';
 
 var owo = function () {
 
@@ -11513,6 +11513,15 @@ var owo = function () {
     var component = document.createElement("div");
     component.setAttribute("id", prefix + "Base");    
 
+    component.addEventListener('click', function (evt) {
+      var right = component.getAttribute('style') || '';
+      if (right.indexOf('right:0px;') == -1) {
+        component.setAttribute('style', 'right:0px;');
+      } else {
+        component.setAttribute('style', 'right:-235px;')
+      }
+    });
+
     var callButton = document.createElement("input");
     callButton.setAttribute("id", prefix + "CallButton");
     callButton.setAttribute("type", "button");
@@ -11530,6 +11539,10 @@ var owo = function () {
     input.setAttribute('type', 'text');
     input.setAttribute('id', prefix + 'Input');
 
+    input.addEventListener('click', function (evt) {
+      if (evt.stopPropagation) evt.stopPropagation();
+    });
+
     var sipStatusIndicator = document.createElement('div');
     sipStatusIndicator.setAttribute('id', prefix + 'SipStatusIndicator');
     sipStatusIndicator.setAttribute('class', 'red')
@@ -11542,8 +11555,8 @@ var owo = function () {
     component.appendChild(optionButton);
     component.appendChild(statusString);
 
-    component.appendChild(configUI.overlay);
-    component.appendChild(configUI.component);
+    document.body.appendChild(configUI.overlay);
+    document.body.appendChild(configUI.component);
 
     document.body.appendChild(component);
 
@@ -11623,6 +11636,7 @@ var owo = function () {
 
   var addListeners = function () {
     ui.callButton.addEventListener('click', function (evt) {
+      if (evt.stopPropagation) evt.stopPropagation();
       var target = ui.inputText.value;
       call(target);
     });
@@ -11631,6 +11645,7 @@ var owo = function () {
       Config.setOptionToForm(Config.getOptionFromStorage());
       ui.configUI.component.style.display = (ui.configUI.component.style.display == 'none') ? '' : 'none';
       ui.configUI.overlay.style.display = (ui.configUI.overlay.style.display == 'none') ? '' : 'none';
+      if (evt.stopPropagation) evt.stopPropagation();
     });
 
     sipUserAgent.on('connected', function () {

@@ -1,7 +1,35 @@
 
 
-
 #owoPhoneControlsBase {
+    position: fixed !important;
+    top: 150px !important;
+    right: -235px;
+    width: 240px !important;
+    background:  #0094d6 !important;
+    padding: 10px;    
+    max-height: 60px;
+    color:  white  !important;
+    text-align: center !important;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s !important;
+    -webkit-border-radius: 2px 0 0 2px;
+    -moz-border-radius: 2px 0 0 2px;
+    border-radius: 10px 0 0 10px !important;
+    line-height: 20px !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+    white-space: nowrap !important;
+    z-index: 10000 !important;
+}
+
+#owoPhoneControlsBase .open {
+
+    right: 0px;
+}
+
+
+#owoPhoneControlsBase1 {
   display: block; 
   border: 1px #EFEFEF solid;
 }
