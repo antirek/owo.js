@@ -11530,6 +11530,17 @@ var owo = function () {
     //callButton.setAttribute("value", "Call");
     callButton.innerHTML = 'Call';
 
+
+    callButton.setBusy = function () {
+      this.classList.remove("btn-b");
+      this.classList.add("btn-c");
+    };
+
+    callButton.setFree = function () {
+      this.classList.remove("btn-c");
+      this.classList.add("btn-b");
+    }
+
     var optionButton = document.createElement("input");
     optionButton.setAttribute("id", prefix + "OptionButton");
     optionButton.setAttribute("type", "button");
@@ -11571,6 +11582,8 @@ var owo = function () {
 
     document.body.appendChild(component);
 
+
+
     return {
       base: component,
       callButton: callButton,
@@ -11583,6 +11596,20 @@ var owo = function () {
   };
 
   var ui = owoUIControls();  
+
+  var state = {
+    isBusy: function () {
+      return (this.status != 'free');
+    },
+    setState: function (stateIn) {
+      this.status = stateIn;
+    },
+    getState: function () {
+      return this.status;
+    }
+  };
+
+  state.setState('free');
 
   var sipUserAgent;
 
@@ -11617,8 +11644,13 @@ var owo = function () {
   var addListeners = function () {
     ui.callButton.addEventListener('click', function (evt) {
       if (evt.stopPropagation) evt.stopPropagation();
-      var target = ui.inputText.value;
-      call(target);
+      if (!state.isBusy()){
+        var target = ui.inputText.value;
+        call(target);
+      } else {
+        state.setState('free');
+        release();        
+      }
     });
 
     ui.optionButton.addEventListener('click', function (evt) {
@@ -11637,6 +11669,49 @@ var owo = function () {
     sipUserAgent.on('registered', function () {
       ui.sipStatusIndicator.setAttribute("class", sipUserAgentStatus().color);
     });
+
+    sipUserAgent.on('invite', function (sessionIn) {
+      state.setState('busy');
+      ui.callButton.setBusy();
+
+      sessionIn.on('accepted', function (data) {
+        console.log('accepted', data);
+      });
+
+      sessionIn.on('rejected', function (response, cause) {
+        console.log('rejected', response, cause);
+      });
+
+      sessionIn.on('cancel', function () {
+        console.log('cancel');
+      });
+
+      sessionIn.on('bye', function (request) {
+        console.log('bye', request);
+      });
+
+      sessionIn.on('failed', function (response, cause) {
+        console.log('failed', response, cause);
+      });
+
+      sessionIn.on('terminated', function (response, cause) {
+        console.log('terminated', response, cause);
+      });
+
+      sessionIn.accept({
+        media: {
+          constraints: {
+            audio: true,
+            video: false
+          },           
+          render: {
+            remote: document.getElementById('owoAudio'),
+            local: document.getElementById('owoAudio')
+          }
+        
+        }
+      });
+    });
   };
 
   var phone = function () {
@@ -11646,10 +11721,52 @@ var owo = function () {
     addListeners();
   };
 
+  var session = null;
 
   var call = function (target) {
-    if (target !== '') sipUserAgent.invite(target, document.getElementById('owoAudio'));
+    if (target !== '') {
+      
+
+      session = sipUserAgent.invite(target, document.getElementById('owoAudio'));
+
+      session.on('accepted', function (data) {
+        console.log('accepted', data);
+      });
+
+      session.on('rejected', function (response, cause) {
+        console.log('rejected', response, cause);
+      });
+
+      session.on('cancel', function () {
+        console.log('cancel');
+      });
+
+      session.on('bye', function (request) {
+        console.log('bye', request);
+      });
+
+      session.on('failed', function (response, cause) {
+        console.log('failed', response, cause);
+      });
+
+      session.on('terminated', function (response, cause) {
+        console.log('terminated', response, cause);
+        release();
+      });
+      
+      state.setState('busy')
+      ui.callButton.setBusy();
+    }
+    
   };
+
+  var release = function () {
+    if (session) {
+      session.terminate();
+    }
+    state.setState('free');
+    ui.callButton.setFree();
+  }
 
   var bind = function (selectors, callback) {
     elementList = document.querySelectorAll(selectors);
@@ -11669,6 +11786,7 @@ var owo = function () {
   };
 
 };
+
 
 var owoPhone;
 
