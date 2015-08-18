@@ -3,8 +3,8 @@ var owo = function () {
 
   /* 
   
-  inject:js 
-
+  <script src="/js/sheet.js"></script> 
+  
   */  
 
 

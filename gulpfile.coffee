@@ -3,7 +3,14 @@ concat = require 'gulp-concat'
 replace = require 'gulp-token-replace'
 minifyCss = require 'gulp-minify-css'
 less = require 'gulp-less'
+inject = require 'gulp-inject'
 
+
+
+gulp.task 'inject', ()->
+  gulp.src ['./js/main.js']
+    .pipe inject gulp.src(['./js/sheet.js'], read: true), name: 'head', starttag: '/*', endtag: '*/'
+    .pipe gulp.dest './src'
 
 gulp.task 'less', ()->
   gulp.src ['./less/*.less']
